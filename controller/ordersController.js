@@ -12,7 +12,7 @@ let deleteOrder = async (ctx, next) => {
             console.log(`删除的订单号为: ${orderID},商品名称为: ${orderName}`)
         })
     } catch (error) {
-        
+        console.log(error);
     }
 }
 
