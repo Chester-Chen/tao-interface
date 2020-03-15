@@ -1,7 +1,7 @@
 const Koa = require('koa');
 const app = new Koa();
 const bodyparser = require('koa-bodyparser');
-// const cors = require('koa2-cors');
+const cors = require('koa2-cors');
 const router = require('./routes/router')
 
 const mongoUtil = require('./config/mongo')
@@ -24,14 +24,7 @@ app.use(async (ctx, next) => {
     await next();
 })
 
-app.use(router.routes());
-
-
-
-
-
-
-
+app.use(router.routes()).use(router.allowedMethods());
 
 
 app.listen(3000, function (ctx) {

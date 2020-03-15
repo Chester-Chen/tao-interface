@@ -18,9 +18,11 @@ router.get('/querygoods', goodsController.queryGoods);
 
 // 订单
 
-router.get('/queryorders', ordersController.queryOrders);
+router.get('/queryorders', ordersController.queryOrders);   // 查询所有顶顶那
 
-router.get('/delorder', ordersController.deleteOrder);
+router.get('/delorder', ordersController.deleteOrder);      // 删除订单
+
+router.post('/addneworder', ordersController.addNewOrder);      // 添加订单
 
 
 

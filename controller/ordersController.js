@@ -1,5 +1,6 @@
 const Order = require('../models/order');
 
+// 根据传入的 orderid 删除订单
 let deleteOrder = async (ctx, next) => {
     try {
         let orderID = ctx.query.orderid;
@@ -16,8 +17,7 @@ let deleteOrder = async (ctx, next) => {
     }
 }
 
-
-
+// 返回所有订单
 let queryOrders = async (ctx, next) => {
     try {
         ctx.body = await Order.find();
@@ -28,11 +28,27 @@ let queryOrders = async (ctx, next) => {
     }
 }
 
-
+// 添加新订单
+let addNewOrder = async (ctx, next) => {
+    try {
+        let temp = ctx.request.body.data.newOrderForm
+        let order = new Order(temp)
+        // console.log(temp);
+        // console.log(order);
+        ctx.body = await order.save((err) => {
+            if(err) {
+                console.log(err);
+            }
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 
 module.exports = {
     deleteOrder,
-    queryOrders
+    queryOrders,
+    addNewOrder
 }
 
