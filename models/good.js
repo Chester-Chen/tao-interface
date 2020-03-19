@@ -30,14 +30,12 @@ var goodSchema = new Schema({
 //     url: 'test url'
 // })
 
-
-// 创建model
 /**
  * 第一个参数为modelname， 集合名的映射
  */
-const goods = new mongoose.model('goods', goodSchema);
+const good = new mongoose.model('goods', goodSchema);
 
-module.exports = goods;
+module.exports = good;
 
 
 
