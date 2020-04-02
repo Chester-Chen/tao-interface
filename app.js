@@ -28,5 +28,5 @@ app.use(router.routes()).use(router.allowedMethods());
 
 
 app.listen(3000, function (ctx) {
-    console.log(`本地服务3000端口启动中`);
+    console.log(`listening at port 3000`);
 });

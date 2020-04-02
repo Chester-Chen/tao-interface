@@ -35,7 +35,12 @@ router.get('/querydisbyid', distributionController.queryDisById);      // 根据
 router.post('/login', usersController.login);
 
 // 注册
-router.get('/register', usersController.register);
+router.post('/register', usersController.register);
+
+
+// wx qr
+router.get('/wxpay', ordersController.wxqr);
+router.post('/commitorders', ordersController.commitorders);
 
 
 module.exports = router;

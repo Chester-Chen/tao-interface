@@ -5,8 +5,10 @@ let deleteOrder = async (ctx, next) => {
     try {
         let orderID = ctx.query.orderid;
         let orderName = ctx.query.ordername;
-        console.log('要删除的orderID: '+orderID)
-        ctx.body = await Order.remove({'_id': orderID}, err => {
+        console.log('要删除的orderID: ' + orderID)
+        ctx.body = await Order.remove({
+            '_id': orderID
+        }, err => {
             if (err) {
                 console.log(`删除订单发生错误${err}`);
             }
@@ -36,7 +38,7 @@ let addNewOrder = async (ctx, next) => {
         // console.log(temp);
         // console.log(order);
         ctx.body = await order.save((err) => {
-            if(err) {
+            if (err) {
                 console.log(err);
             }
         })
@@ -46,9 +48,53 @@ let addNewOrder = async (ctx, next) => {
 }
 
 
+// wx qr
+let wxqr = async (ctx, next) => {
+    try {
+        ctx.body = {
+            appId: 'wxae0097c0c8c31ef1',
+            msg: 'wx'
+        }
+
+
+    } catch (error) {
+        if (err) {
+            console.log(err);
+        }
+    }
+}
+
+// 前台提交订单写入数据库
+let commitorders = async (ctx, next) => {
+    try {
+        let data = ctx.request.body.orders;
+        for (let i = 0; i < data.length; i++) {
+            let order = new Order(data[i]);
+            await order.save(err => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log(`新订单写入，名称为：${data[i].name}`);
+                }
+            })
+        }
+
+        ctx.body = {
+            msg: 'commitorders'
+        }
+
+
+    } catch (error) {
+        if (err) {
+            console.log(err);
+        }
+    }
+}
+
 module.exports = {
     deleteOrder,
     queryOrders,
-    addNewOrder
+    addNewOrder,
+    wxqr,
+    commitorders
 }
-

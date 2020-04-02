@@ -17,7 +17,7 @@ module.exports = {
         })
 
         db.once('open', function () {
-            console.log('mongodb connect  success!');
+            console.log('MongoDB connect successful!');
         })
     }
 }

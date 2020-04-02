@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 
 // 创建约束
 var userSchema = new Schema({
-    name: String,
+    user: String,
     password: String
 });
 
