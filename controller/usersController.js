@@ -1,33 +1,16 @@
 const user = require('../models/user');
+const jwt = require('jsonwebtoken');
+const {generateToken} = require('../utils/tokenUtils.js');
 
-/**
- * @description: 用户名存在返回true 否则发挥false
- */
-//  function userIsExist(ctx) {
-//     try {
-//         const data = ctx.request.body;
-//         console.log('user: ', data.values);
-//         let temp =  user.findOne({
-//             name: data.values.user
-//         }).then(res => {
-//             console.log('1');
-//             if (res) {
-//                 return true;
-//             }
-//         });
-//         console.log('temp: ', temp);
-//       return temp ? true : false;
-//     } catch (error) {
-//         if (error) throw error;
-//     }
-// }
 
 const login = async (ctx, next) => {
     try {
-        // const body = JSON.stringify(ctx.request.body);
         const msg = ctx.request.body.values;
         const password = msg.password;
-        console.log(msg);
+        const token = ctx.request.body.token;
+
+        console.log('login token:', token);
+
         /**
          * findOne  return 一个 query 
          * 返回一个匹配项,无匹配项,返回 null
@@ -47,7 +30,8 @@ const login = async (ctx, next) => {
                 console.log(`用户: ${msg.user}, 登录成功!`);
                 ctx.body = {
                     status: 200,
-                    msg: '登录成功!'
+                    msg: '登录成功!',
+                    token: generateToken(user)
                 }
             } else { // 密码错误
                 console.log(`用户: ${msg.user}, 密码输入错误!`);

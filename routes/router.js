@@ -5,12 +5,18 @@ const goodsController = require('../controller/goodsController');
 const ordersController = require('../controller/ordersController');
 const distributionController = require('../controller/distributionController');
 const usersController = require('../controller/usersController');
+const testController = require('../controller/testController');
 
 
 router.get('/', async (ctx) => {
     ctx.body = 'router test';
     console.log(ctx.href);
 })
+
+// test
+router.post('/test', testController.tokenVertify)
+
+
 
 // 商品
 router.get('/addgoods', goodsController.addGoods);
