@@ -83,9 +83,19 @@ const register = async (ctx, next) => {
     }
 }
 
-
+let queryAllUsers = async (ctx, next) => {
+    try {
+        ctx.body = await user.find();
+    } catch (error) {
+        if(err) throw err;
+        ctx.body = {
+            error: '查询用户发生错误'
+        }
+    }
+}
 
 module.exports = {
     login,
-    register
+    register,
+    queryAllUsers
 }

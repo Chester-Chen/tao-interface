@@ -43,6 +43,9 @@ router.post('/login', usersController.login);
 // 注册
 router.post('/register', usersController.register);
 
+// 用户管理
+router.get('/queryusers', usersController.queryAllUsers);
+
 
 // wx qr
 router.get('/wxpay', ordersController.wxqr);

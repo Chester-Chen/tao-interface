@@ -6,13 +6,14 @@ let deleteOrder = async (ctx, next) => {
         let orderID = ctx.query.orderid;
         let orderName = ctx.query.ordername;
         console.log('要删除的orderID: ' + orderID)
-        ctx.body = await Order.remove({
-            '_id': orderID
+        ctx.body = await Order.deleteOne({
+            '_id': orderID,
+            'name': orderName
         }, err => {
             if (err) {
                 console.log(`删除订单发生错误${err}`);
             }
-            console.log(`删除的订单号为: ${orderID},商品名称为: ${orderName}`)
+            console.log(`已删除订单号为: ${orderID},订单名称为: ${orderName}`)
         })
     } catch (error) {
         console.log(error);
