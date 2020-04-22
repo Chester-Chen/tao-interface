@@ -16,7 +16,15 @@ const tokenVertify = async (ctx, next) => {
         msg: 'hello'
     }
 }
+const payTip = async (ctx, next) => {
+    
+    console.log('支付成功', ctx.query);
+    ctx.body = {
+        msg: '支付成功'
+    }
+}
 
 module.exports = {
-    tokenVertify
+    tokenVertify,
+    payTip
 }

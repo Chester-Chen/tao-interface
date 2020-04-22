@@ -8,7 +8,7 @@ var orderSchema = new Schema({
     id: Number,
     num: Number,
     price: Number,
-    desc: String,
+    desc: {type: String, required: true},
     name: String,
 });
 

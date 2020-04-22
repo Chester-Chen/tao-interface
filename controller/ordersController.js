@@ -42,6 +42,7 @@ let addNewOrder = async (ctx, next) => {
             if (err) {
                 console.log(err);
             }
+            console.log(`后台增加新订单, 名称为：${temp.name}`);
         })
     } catch (error) {
         console.log(error);
@@ -75,7 +76,7 @@ let commitorders = async (ctx, next) => {
                 if (err) {
                     console.log(err);
                 } else {
-                    console.log(`新订单写入，名称为：${data[i].name}`);
+                    console.log(`前台新订单写入，名称为：${data[i].name}`);
                 }
             })
         }
@@ -92,10 +93,43 @@ let commitorders = async (ctx, next) => {
     }
 }
 
+// 后台管理修改订单信息
+let updateOrderByOrderid = async (ctx, next) => {
+    try {
+        const form = ctx.request.body.form;
+        console.log('form', form);
+        console.log('singlePrice', form.singlePrice);
+        Order.updateOne({
+            "_id": form._id
+        }, {
+            $set: {
+                "_id": form._id,
+                "id": form.id,
+                "name": form.name,
+                "num": form.num,
+                "price": form.price
+            }
+        }, (err, result) => {
+            if (err) throw err;
+            console.log(`后台修改了订单为${form._id}的数据`);
+        })
+        ctx.body = {
+            msg: 'success'
+        }
+
+
+    } catch (error) {
+        if (err) {
+            console.log(err);
+        }
+    }
+}
+
 module.exports = {
     deleteOrder,
     queryOrders,
     addNewOrder,
     wxqr,
-    commitorders
+    commitorders,
+    updateOrderByOrderid
 }
