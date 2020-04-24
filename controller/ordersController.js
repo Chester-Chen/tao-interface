@@ -97,8 +97,7 @@ let commitorders = async (ctx, next) => {
 let updateOrderByOrderid = async (ctx, next) => {
     try {
         const form = ctx.request.body.form;
-        console.log('form', form);
-        console.log('singlePrice', form.singlePrice);
+        console.log('修改后的订单数据：', form);
         Order.updateOne({
             "_id": form._id
         }, {
