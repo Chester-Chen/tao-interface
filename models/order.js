@@ -10,6 +10,11 @@ var orderSchema = new Schema({
     price: Number,
     desc: {type: String, required: true},
     name: String,
+    accepter: String,
+    date: {
+        type: Date,
+        default: Date.now
+    }
 });
 
 

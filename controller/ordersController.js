@@ -23,6 +23,7 @@ let deleteOrder = async (ctx, next) => {
 // 返回所有订单
 let queryOrders = async (ctx, next) => {
     try {
+        // console.log(await Order.find());
         ctx.body = await Order.find();
     } catch (error) {
         ctx.body = {
@@ -31,38 +32,49 @@ let queryOrders = async (ctx, next) => {
     }
 }
 
-// 添加新订单
+/**
+ * @description 分页返回订单
+ * @param {Number} pageNum 第几页
+ * @param {Number} pageSize 每页数量
+ */
+let queryOrdersByPage = async (ctx, next) => {
+    let pageNum = ctx.query.pageNum > 1 ? ctx.query.pageNum : 1;
+    // console.log(pageNum);
+    let pageSize = 10;
+    try {
+        await Order.find().limit(pageSize).skip((pageNum - 1) * pageSize)
+            .then((res) => {
+                ctx.body = {
+                    paginationOrders: res
+                };
+            })
+    } catch (error) {
+        ctx.body = {
+            error: '查询订单发生错误'
+        }
+    }
+}
+
+// 后台管理员添加新订单
 let addNewOrder = async (ctx, next) => {
     try {
         let temp = ctx.request.body.data.newOrderForm
         let order = new Order(temp)
-        // console.log(temp);
-        // console.log(order);
-        ctx.body = await order.save((err) => {
-            if (err) {
-                console.log(err);
+        await order.save().then(value => {
+            console.log('value: ', value);
+            ctx.body = {
+                status: 200,
+                msg: '订单添加成功！'
             }
-            console.log(`后台增加新订单, 名称为：${temp.name}`);
+        }).catch(reaseon => {
+            console.log('reaseon: ', reaseon);
+            ctx.body = {
+                status: 409,
+                msg: '订单字段输入有误！请仔细检查！'
+            }
         })
     } catch (error) {
         console.log(error);
-    }
-}
-
-
-// wx qr
-let wxqr = async (ctx, next) => {
-    try {
-        ctx.body = {
-            appId: 'wxae0097c0c8c31ef1',
-            msg: 'wx'
-        }
-
-
-    } catch (error) {
-        if (err) {
-            console.log(err);
-        }
     }
 }
 
@@ -80,12 +92,9 @@ let commitorders = async (ctx, next) => {
                 }
             })
         }
-
         ctx.body = {
             msg: 'commitorders'
         }
-
-
     } catch (error) {
         if (err) {
             console.log(err);
@@ -98,7 +107,7 @@ let updateOrderByOrderid = async (ctx, next) => {
     try {
         const form = ctx.request.body.form;
         console.log('修改后的订单数据：', form);
-        Order.updateOne({
+        await Order.updateOne({
             "_id": form._id
         }, {
             $set: {
@@ -108,14 +117,21 @@ let updateOrderByOrderid = async (ctx, next) => {
                 "num": form.num,
                 "price": form.price
             }
-        }, (err, result) => {
-            if (err) throw err;
+        }, (err) => {
+            if (err) {
+                return ctx.body = {
+                    title: '错误',
+                    status: 403,
+                    msg: '订单修改发生错误！'
+                }
+            }
             console.log(`后台修改了订单为${form._id}的数据`);
+            return ctx.body = {
+                title: '成功',
+                status: 200,
+                msg: '订单修改成功'
+            }
         })
-        ctx.body = {
-            msg: 'success'
-        }
-
 
     } catch (error) {
         if (err) {
@@ -128,7 +144,7 @@ module.exports = {
     deleteOrder,
     queryOrders,
     addNewOrder,
-    wxqr,
     commitorders,
-    updateOrderByOrderid
+    updateOrderByOrderid,
+    queryOrdersByPage
 }
